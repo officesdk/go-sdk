@@ -1,16 +1,23 @@
-# How to User
+# How to Use
 
-## register
-
-r.Engine is `github.com/gin-gonic/gin`
-
-callback is `github.com/officesdk/go-sdk/callback`
-
-```go
-callback.RegisterRouter(r.Engine)
-callback.RegisterHandler(&icallback.Handler{})
 ```
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/officesdk/go-sdk/officesdk"
+	"time"
+)
 
-you should implement `icallback.Handler`
+func main() {
+	// 初始化路由
+	e := gin.Default()
 
-> var _ callback.Handler = (*Handler)(nil)
+	officesdk.NewServer(officesdk.Config{
+		PreviewProvider: &PreviewProvider{},
+		EditProvider:    &EditProvider{},
+		AIProvider:      &AIProvider{},
+		Prefix:          "/api",
+	}, e)
+
+	_ = e.Run(":8080")
+}
+```
