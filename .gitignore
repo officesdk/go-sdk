@@ -1,0 +1,74 @@
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
+
+psd
+thumb
+sketch
+
+.idea
+.vscode
+
+*.log
+*.swp
+*.swo
+*.tar.gz
+*.sys
+proxt.ts
+
+
+### root folder
+/tests
+/bin
+/logs
+/rules
+/configs
+/publics
+/api/bin
+/api/logs
+
+### inner folder
+logs/
+node_modules/
+
+.umi/
+.umi-production/
+
+### necessary file
+api/internal/ui/dist/
+
+### file
+package-lock.json
+api/docs/index.html
+
+/data/helm/turboone/default.toml
+/data/helm/turboone/resource.yaml
+
+cdn/files/
+!cdn/files/test.docx
+!cdn/files/test.png
+
+### ci tools
+ossutil64
+ossutil64.1
+obsutil_linux_amd64*/
+
+dump.rdb
+
+*.dylib
+*.so
+
+### preview static
+static/dist/docx
+static/dist/preview
+static/dist/worker
+static/dist/static
+static/dist/sheet
+
+### preview convert
+tmp
+
+### leveldb
+leveldb/*
+!leveldb/.keep
