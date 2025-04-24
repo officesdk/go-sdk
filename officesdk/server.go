@@ -21,8 +21,8 @@ type Server struct {
 
 // NewServer 创建服务
 func NewServer(config Config, e *gin.Engine) {
-	if config.PreviewProvider == nil {
-		log.Panic("PreviewProvider must not nil")
+	if config.FileProvider == nil {
+		log.Panic("FileProvider must not nil")
 	}
 	srv := &Server{
 		engine: e,
@@ -90,44 +90,47 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 		return srv.config.GetFileWatermark(c, c.Param("file_id"))
 	}))
 
-	// 编辑接口
-	if srv.config.EditProvider != nil {
-		rg.POST("/files/:file_id/content/upload-url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用获取上传 URL 的逻辑
-			return srv.config.GetUploadURL(c, c.Param("file_id"))
-		}))
+	rg.GET("/verify/:file_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用文件鉴权的逻辑
+		return srv.config.VerifyFile(c, c.Param("file_id"))
+	}))
 
-		rg.POST("/files/:file_id/content/upload-completion", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用完成上传的逻辑
-			return srv.config.CompleteUpload(c, c.Param("file_id"))
-		}))
+	rg.POST("/files/:file_id/content/upload-url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用获取上传 URL 的逻辑
+		return srv.config.GetUploadURL(c, c.Param("file_id"))
+	}))
 
-		rg.GET("/files/:file_id/content/url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用获取下载 URL 的逻辑
-			return srv.config.GetDownloadURL(c, c.Param("file_id"))
-		}))
+	rg.POST("/files/:file_id/content/upload-completion", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用完成上传的逻辑
+		return srv.config.CompleteUpload(c, c.Param("file_id"))
+	}))
 
-		rg.POST("/files/:file_id/assets/upload-url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用获取上传 URL 的逻辑
-			return srv.config.GetAssetUploadURL(c, c.Param("file_id"))
-		}))
+	rg.GET("/files/:file_id/content/url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用获取下载 URL 的逻辑
+		return srv.config.GetDownloadURL(c, c.Param("file_id"))
+	}))
 
-		rg.POST("/files/:file_id/assets/upload-completion", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用完成上传的逻辑
-			return srv.config.AssetCompleteUpload(c, c.Param("file_id"))
-		}))
+	rg.POST("/files/:file_id/assets/upload-url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用获取上传 URL 的逻辑
+		return srv.config.GetAssetUploadURL(c, c.Param("file_id"))
+	}))
 
-		rg.GET("/files/:file_id/assets/url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
-			attachHeaders(c)
-			// 调用获取下载 URL 的逻辑
-			return srv.config.GetAssetDownloadURL(c, c.Param("file_id"))
-		}))
-	}
+	rg.POST("/files/:file_id/assets/upload-completion", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用完成上传的逻辑
+		return srv.config.AssetCompleteUpload(c, c.Param("file_id"))
+	}))
+
+	rg.GET("/files/:file_id/assets/url", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用获取下载 URL 的逻辑
+		return srv.config.GetAssetDownloadURL(c, c.Param("file_id"))
+	}))
 
 	// AI 接口
 	if srv.config.AIProvider != nil {
