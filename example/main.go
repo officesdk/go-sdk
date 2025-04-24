@@ -1,9 +1,10 @@
 package main
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/officesdk/go-sdk/officesdk"
-	"time"
 )
 
 func main() {
@@ -11,19 +12,18 @@ func main() {
 	e := gin.Default()
 
 	officesdk.NewServer(officesdk.Config{
-		PreviewProvider: &PreviewProvider{},
-		EditProvider:    &EditProvider{},
-		AIProvider:      &AIProvider{},
-		Prefix:          "/api",
+		FileProvider: &FileProvider{},
+		AIProvider:   &AIProvider{},
+		Prefix:       "/api",
 	}, e)
 
 	_ = e.Run(":8080")
 }
 
 // PreviewProvider 实现预览相关接口
-type PreviewProvider struct{}
+type FileProvider struct{}
 
-func (p *PreviewProvider) GetFile(c *gin.Context, fileId string) (*officesdk.FileResponse, error) {
+func (p *FileProvider) GetFile(c *gin.Context, fileId string) (*officesdk.FileResponse, error) {
 	return &officesdk.FileResponse{
 		ID:         fileId,
 		Name:       "example.docx",
@@ -36,7 +36,7 @@ func (p *PreviewProvider) GetFile(c *gin.Context, fileId string) (*officesdk.Fil
 	}, nil
 }
 
-func (p *PreviewProvider) GetFileDownload(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
+func (p *FileProvider) GetFileDownload(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
 	return &officesdk.DownloadResponse{
 		URL: "https://example.com/download/" + fileId,
 		Headers: map[string]string{
@@ -45,7 +45,7 @@ func (p *PreviewProvider) GetFileDownload(c *gin.Context, fileId string) (*offic
 	}, nil
 }
 
-func (p *PreviewProvider) GetFileWatermark(c *gin.Context, fileId string) (*officesdk.WatermarkResponse, error) {
+func (p *FileProvider) GetFileWatermark(c *gin.Context, fileId string) (*officesdk.WatermarkResponse, error) {
 	return &officesdk.WatermarkResponse{
 		Type:       1,
 		Value:      "示例水印",
@@ -57,10 +57,7 @@ func (p *PreviewProvider) GetFileWatermark(c *gin.Context, fileId string) (*offi
 	}, nil
 }
 
-// EditProvider 实现编辑相关接口
-type EditProvider struct{}
-
-func (p *EditProvider) GetUploadURL(c *gin.Context, fileId string) (*officesdk.UploadURLResponse, error) {
+func (p *FileProvider) GetUploadURL(c *gin.Context, fileId string) (*officesdk.UploadURLResponse, error) {
 	return &officesdk.UploadURLResponse{
 		URL:    "https://example.com/upload/" + fileId,
 		Method: "PUT",
@@ -76,7 +73,7 @@ func (p *EditProvider) GetUploadURL(c *gin.Context, fileId string) (*officesdk.U
 	}, nil
 }
 
-func (p *EditProvider) CompleteUpload(c *gin.Context, fileId string) (*officesdk.UploadCompletionResponse, error) {
+func (p *FileProvider) CompleteUpload(c *gin.Context, fileId string) (*officesdk.UploadCompletionResponse, error) {
 	return &officesdk.UploadCompletionResponse{
 		ID:         fileId,
 		Version:    1,
@@ -87,7 +84,7 @@ func (p *EditProvider) CompleteUpload(c *gin.Context, fileId string) (*officesdk
 	}, nil
 }
 
-func (p *EditProvider) GetDownloadURL(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
+func (p *FileProvider) GetDownloadURL(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
 	return &officesdk.DownloadResponse{
 		URL: "https://example.com/download/" + fileId,
 		Headers: map[string]string{
@@ -96,7 +93,7 @@ func (p *EditProvider) GetDownloadURL(c *gin.Context, fileId string) (*officesdk
 	}, nil
 }
 
-func (p *EditProvider) GetAssetUploadURL(c *gin.Context, fileId string) (*officesdk.AssetUploadURLResponse, error) {
+func (p *FileProvider) GetAssetUploadURL(c *gin.Context, fileId string) (*officesdk.AssetUploadURLResponse, error) {
 	return &officesdk.AssetUploadURLResponse{
 		URL:          "https://example.com/upload/" + fileId,
 		Method:       "PUT",
@@ -113,7 +110,7 @@ func (p *EditProvider) GetAssetUploadURL(c *gin.Context, fileId string) (*office
 	}, nil
 }
 
-func (p *EditProvider) AssetCompleteUpload(c *gin.Context, fileId string) (*officesdk.UploadCompletionResponse, error) {
+func (p *FileProvider) AssetCompleteUpload(c *gin.Context, fileId string) (*officesdk.UploadCompletionResponse, error) {
 	return &officesdk.UploadCompletionResponse{
 		ID:         fileId,
 		Version:    1,
@@ -124,11 +121,22 @@ func (p *EditProvider) AssetCompleteUpload(c *gin.Context, fileId string) (*offi
 	}, nil
 }
 
-func (p *EditProvider) GetAssetDownloadURL(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
+func (p *FileProvider) GetAssetDownloadURL(c *gin.Context, fileId string) (*officesdk.DownloadResponse, error) {
 	return &officesdk.DownloadResponse{
 		URL: "https://example.com/download/" + fileId,
 		Headers: map[string]string{
 			"Authorization": "Bearer token",
+		},
+	}, nil
+}
+
+func (p *FileProvider) VerifyFile(c *gin.Context, fileId string) (*officesdk.VerifyResponse, error) {
+	return &officesdk.VerifyResponse{
+		CurrentUserInfo: officesdk.UserInfo{
+			ID:     "1",
+			Name:   "名称",
+			Email:  "a@b.com",
+			Avatar: "",
 		},
 	}, nil
 }
