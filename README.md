@@ -12,10 +12,9 @@ func main() {
 	e := gin.Default()
 
 	officesdk.NewServer(officesdk.Config{
-		PreviewProvider: &PreviewProvider{},
-		EditProvider:    &EditProvider{},
-		AIProvider:      &AIProvider{},
-		Prefix:          "/api",
+		FileProvider: &FileProvider{},
+		AIProvider:   &AIProvider{},
+		Prefix:       "/api",
 	}, e)
 
 	_ = e.Run(":8080")
