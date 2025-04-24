@@ -12,7 +12,6 @@ type Config struct {
 	Prefix string
 }
 
-
 // Res 返回参数结构体
 type Res struct {
 	Code    int    `json:"code"`
@@ -92,9 +91,9 @@ type AIConfigResponse struct {
 // UserInfo 用户信息
 type UserInfo struct {
 	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Email  string `json:"email"`
-	Avatar string `json:"avatar"`
+	Name   string `json:"name,omitempty"`
+	Email  string `json:"email,omitempty"`
+	Avatar string `json:"avatar,omitempty"`
 }
 
 // VerifyResponse 文件鉴权返回结果
