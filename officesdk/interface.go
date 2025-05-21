@@ -20,4 +20,8 @@ type FileProvider interface {
 
 type AIProvider interface {
 	AIConfig(c *gin.Context) (*AIConfigResponse, error)
+	NewConversation(c *gin.Context) error
+	AddMessage(c *gin.Context) error
+	DeleteConversation(c *gin.Context) error
+	GetConversation(c *gin.Context) (*ChatConversation, error)
 }

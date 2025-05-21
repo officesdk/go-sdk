@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -158,5 +159,50 @@ func (p *AIProvider) AIConfig(c *gin.Context) (*officesdk.AIConfigResponse, erro
 				Subservice:     "default",
 			},
 		},
+	}, nil
+}
+
+func (p *AIProvider) NewConversation(c *gin.Context) error {
+	body := officesdk.ChatConversation{}
+	err := c.BindJSON(&body)
+	if err != nil {
+		return nil
+	}
+	// 创建新对话存储
+	return nil
+}
+
+func (p *AIProvider) AddMessage(c *gin.Context) error {
+	body := officesdk.ChatMessageDO{}
+	err := c.BindJSON(&body)
+	if err != nil {
+		return nil
+	}
+	conversationId := c.Query("conversationId")
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
+	// 新增对话消息存储
+	return nil
+}
+
+func (p *AIProvider) DeleteConversation(c *gin.Context) error {
+	conversationId := c.Query("conversationId")
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
+	// 删除对话消息
+	return nil
+}
+
+func (p *AIProvider) GetConversation(c *gin.Context) (*officesdk.ChatConversation, error) {
+	fileGuid := c.Query("fileGuid")
+	userId := c.Query("userId")
+	fmt.Printf("fileGuid: %s, userId: %s", fileGuid, userId)
+	// 查询对话消息
+	return &officesdk.ChatConversation{
+		ConversationId: "conversationId",
+		System:         "system",
+		FileGuid:       "file",
+		UserId:         "user",
+		Messages:       []officesdk.ChatMessageDO{},
 	}, nil
 }

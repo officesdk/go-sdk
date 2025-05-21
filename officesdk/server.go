@@ -137,8 +137,32 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 
 		rg.GET("/chat/ai-config", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
-			// 调用完成上传的逻辑
+			// 调用获取ai配置项逻辑
 			return srv.config.AIConfig(c)
+		}))
+
+		rg.POST("/chat/new-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用创建ai会话逻辑
+			return nil, srv.config.NewConversation(c)
+		}))
+
+		rg.POST("/chat/add-message", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用新增会话消息逻辑
+			return nil, srv.config.AddMessage(c)
+		}))
+
+		rg.DELETE("/chat/delete-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用删除对话逻辑
+			return nil, srv.config.DeleteConversation(c)
+		}))
+
+		rg.GET("/chat/get-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用获取会话列表的逻辑
+			return srv.config.GetConversation(c)
 		}))
 
 	}
