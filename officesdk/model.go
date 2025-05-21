@@ -100,3 +100,76 @@ type UserInfo struct {
 type VerifyResponse struct {
 	CurrentUserInfo UserInfo `json:"currentUserInfo"`
 }
+
+// ChatConversation AI对话
+type ChatConversation struct {
+	ConversationId string          `json:"conversation_id"`
+	System         string          `json:"system"`
+	FileGuid       string          `json:"file_guid"`
+	UserId         string          `json:"user_id"`
+	Messages       []ChatMessageDO `json:"messages,omitempty"`
+}
+
+// ChatMessageDO AI对话消息
+type ChatMessageDO struct {
+	ChatMessage
+	NeedAIChat bool `json:"need_ai_chat,omitempty"`
+}
+
+type ChatMessage struct {
+	MessageId   string                 `json:"message_id,omitempty"`
+	Role        string                 `json:"role,omitempty"`
+	Type        string                 `json:"type,omitempty"`
+	SentenceId  int                    `json:"sentence_id"`
+	IsEnd       bool                   `json:"is_end,omitempty"`
+	IsTruncated bool                   `json:"is_truncated,omitempty"`
+	Content     ChatContents           `json:"content,omitempty"`
+	Text        string                 `json:"text,omitempty"`
+	Created     int64                  `json:"created,omitempty"` // 目前用来给消息排序
+	ErrorCode   int                    `json:"error_code,omitempty"`
+	ErrorMsg    string                 `json:"error_msg,omitempty"`
+	Usage       *ChatMessageTokenUsage `json:"usage,omitempty"`
+}
+
+type ChatContents []ChatContent
+
+// ChatContent 前端传参，表示本次 chat 的行为
+type ChatContent struct {
+	Type string       `json:"type,omitempty"`
+	File *ContentFile `json:"file,omitempty"`
+
+	ShimoFileGenerator *ContentShimoFileGenerator `json:"shimo_file_generator,omitempty"` // 生成文件的请求
+	Text               *string                    `json:"text,omitempty"`                 // prompt
+	TextProcessor      *ContentTextProcessor      `json:"text_processor,omitempty"`       // 生成 ppt 约定的入参
+	TextContext        *string                    `json:"text_context,omitempty"`         // 和前端约定的 prompt 模板
+}
+
+type ContentShimoFileGenerator struct {
+	InputContent          string                 `json:"input_content,omitempty"`
+	InputContentMessageId string                 `json:"input_content_message_id,omitempty"`
+	TargetFileType        string                 `json:"target_file_type,omitempty"`
+	TargetFolder          string                 `json:"target_folder,omitempty"`
+	FileName              string                 `json:"file_name,omitempty"`
+	TemplateId            string                 `json:"template_id,omitempty"`
+	FileInfo              map[string]interface{} `json:"file_info,omitempty"`
+}
+
+type ContentTextProcessor struct {
+	Text   string                 `json:"text,omitempty"`
+	Action string                 `json:"action,omitempty"`
+	Guid   string                 `json:"guid,omitempty"`
+	Ext    map[string]interface{} `json:"ext,omitempty"`
+}
+
+type ContentFile struct {
+	Guid     string                 `json:"guid,omitempty"`
+	FileKey  string                 `json:"file_key,omitempty"`
+	Text     string                 `json:"text,omitempty"`
+	FileInfo map[string]interface{} `json:"file_info,omitempty"`
+}
+
+type ChatMessageTokenUsage struct {
+	PromptTokens     int `json:"prompt_tokens,omitempty"`     // 问题tokens数
+	CompletionTokens int `json:"completion_tokens,omitempty"` // 回答tokens数
+	TotalTokens      int `json:"total_tokens,omitempty"`      // tokens总数 prompt_tokens + completion_tokens
+}
