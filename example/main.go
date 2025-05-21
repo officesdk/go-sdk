@@ -172,31 +172,28 @@ func (p *AIProvider) NewConversation(c *gin.Context) error {
 	return nil
 }
 
-func (p *AIProvider) AddMessage(c *gin.Context) error {
+func (p *AIProvider) AddMessage(c *gin.Context, conversationId string) error {
 	body := officesdk.ChatMessageDO{}
 	err := c.BindJSON(&body)
 	if err != nil {
 		return nil
 	}
-	conversationId := c.Query("conversationId")
 	userId := c.Query("userId")
 	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
 	// 新增对话消息存储
 	return nil
 }
 
-func (p *AIProvider) DeleteConversation(c *gin.Context) error {
-	conversationId := c.Query("conversationId")
+func (p *AIProvider) DeleteConversation(c *gin.Context, conversationId string) error {
 	userId := c.Query("userId")
 	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
 	// 删除对话消息
 	return nil
 }
 
-func (p *AIProvider) GetConversation(c *gin.Context) (*officesdk.ChatConversation, error) {
-	fileGuid := c.Query("fileGuid")
+func (p *AIProvider) GetConversation(c *gin.Context, conversationId string) (*officesdk.ChatConversation, error) {
 	userId := c.Query("userId")
-	fmt.Printf("fileGuid: %s, userId: %s", fileGuid, userId)
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
 	// 查询对话消息
 	return &officesdk.ChatConversation{
 		ConversationId: "conversationId",
@@ -204,5 +201,27 @@ func (p *AIProvider) GetConversation(c *gin.Context) (*officesdk.ChatConversatio
 		FileGuid:       "file",
 		UserId:         "user",
 		Messages:       []officesdk.ChatMessageDO{},
+	}, nil
+}
+
+func (p *AIProvider) DeleteFileConversations(c *gin.Context, fileId string) error {
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", fileId, userId)
+	// 删除文件对话
+	return nil
+}
+
+func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) (*[]officesdk.ChatConversation, error) {
+	userId := c.Query("userId")
+	fmt.Printf("fileGuid: %s, userId: %s", fileId, userId)
+	// 查询文件对话列表
+	return &[]officesdk.ChatConversation{
+		{
+			ConversationId: "conversationId",
+			System:         "system",
+			FileGuid:       "file",
+			UserId:         "user",
+			Messages:       []officesdk.ChatMessageDO{},
+		},
 	}, nil
 }

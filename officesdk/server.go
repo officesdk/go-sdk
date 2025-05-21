@@ -135,34 +135,46 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 	// AI 接口
 	if srv.config.AIProvider != nil {
 
-		rg.GET("/chat/ai-config", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/config", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用获取ai配置项逻辑
 			return srv.config.AIConfig(c)
 		}))
 
-		rg.POST("/chat/new-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.POST("/ai/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用创建ai会话逻辑
 			return nil, srv.config.NewConversation(c)
 		}))
 
-		rg.POST("/chat/add-message", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.POST("/ai/chats/:chat_id/messages", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用新增会话消息逻辑
-			return nil, srv.config.AddMessage(c)
+			return nil, srv.config.AddMessage(c, c.Param("chat_id"))
 		}))
 
-		rg.DELETE("/chat/delete-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/chats/:chat_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用获取会话列表消息的逻辑
+			return srv.config.GetConversation(c, c.Param("chat_id"))
+		}))
+
+		rg.DELETE("/ai/chats/:chat_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用删除对话逻辑
-			return nil, srv.config.DeleteConversation(c)
+			return nil, srv.config.DeleteConversation(c, c.Param("chat_id"))
 		}))
 
-		rg.GET("/chat/get-conversation", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/:file_id/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
-			// 调用获取会话列表的逻辑
-			return srv.config.GetConversation(c)
+			// 调用获取文件会话的逻辑
+			return srv.config.GetFileConversations(c, c.Param("file_id"))
+		}))
+
+		rg.DELETE("/ai/:file_id/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 调用删除文件对话逻辑
+			return nil, srv.config.DeleteFileConversations(c, c.Param("file_id"))
 		}))
 
 	}
