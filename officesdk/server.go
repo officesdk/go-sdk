@@ -141,41 +141,40 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 			return srv.config.AIConfig(c)
 		}))
 
-		rg.POST("/ai/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.POST("/ai/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用创建ai会话逻辑
 			return nil, srv.config.NewConversation(c)
 		}))
 
-		rg.POST("/ai/chats/:chat_id/messages", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.POST("/ai/conversations/:conversation_id/messages", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用新增会话消息逻辑
-			return nil, srv.config.AddMessage(c, c.Param("chat_id"))
+			return nil, srv.config.AddMessage(c, c.Param("conversation_id"))
 		}))
 
-		rg.GET("/ai/chats/:chat_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/conversations/:conversation_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用获取会话列表消息的逻辑
-			return srv.config.GetConversation(c, c.Param("chat_id"))
+			return srv.config.GetConversation(c, c.Param("conversation_id"))
 		}))
 
-		rg.DELETE("/ai/chats/:chat_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.DELETE("/ai/conversations/:conversation_id", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用删除对话逻辑
-			return nil, srv.config.DeleteConversation(c, c.Param("chat_id"))
+			return nil, srv.config.DeleteConversation(c, c.Param("conversation_id"))
 		}))
 
-		rg.GET("/ai/:file_id/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用获取文件会话的逻辑
 			return srv.config.GetFileConversations(c, c.Param("file_id"))
 		}))
 
-		rg.DELETE("/ai/:file_id/chats", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.DELETE("/ai/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用删除文件对话逻辑
 			return nil, srv.config.DeleteFileConversations(c, c.Param("file_id"))
 		}))
-
 	}
 }
