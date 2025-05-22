@@ -27,6 +27,6 @@ type AIProvider interface {
 	GetConversation(c *gin.Context, conversationId string) (*ChatConversation, error)
 	DeleteConversation(c *gin.Context, conversationId string) error
 
-	GetFileConversations(c *gin.Context, fileId string) (*[]ChatConversation, error)
+	GetFileConversations(c *gin.Context, fileId string) ([]ChatConversation, error)
 	DeleteFileConversations(c *gin.Context, fileId string) error
 }

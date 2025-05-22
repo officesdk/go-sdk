@@ -211,11 +211,11 @@ func (p *AIProvider) DeleteFileConversations(c *gin.Context, fileId string) erro
 	return nil
 }
 
-func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) (*[]officesdk.ChatConversation, error) {
+func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) ([]officesdk.ChatConversation, error) {
 	userId := c.Query("userId")
 	fmt.Printf("fileGuid: %s, userId: %s", fileId, userId)
 	// 查询文件对话列表
-	return &[]officesdk.ChatConversation{
+	return []officesdk.ChatConversation{
 		{
 			ConversationId: "conversationId",
 			System:         "system",
