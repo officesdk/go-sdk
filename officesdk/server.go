@@ -165,13 +165,13 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 			return nil, srv.config.DeleteConversation(c, c.Param("conversation_id"))
 		}))
 
-		rg.GET("/ai/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.GET("/ai/files/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用获取文件会话的逻辑
 			return srv.config.GetFileConversations(c, c.Param("file_id"))
 		}))
 
-		rg.DELETE("/ai/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		rg.DELETE("/ai/files/:file_id/conversations", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
 			attachHeaders(c)
 			// 调用删除文件对话逻辑
 			return nil, srv.config.DeleteFileConversations(c, c.Param("file_id"))
