@@ -176,5 +176,29 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 			// 调用删除文件对话逻辑
 			return nil, srv.config.DeleteFileConversations(c, c.Param("file_id"))
 		}))
+
+		rg.POST("/ai/conversations/:conversation_id/break", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 中断会话逻辑
+			return nil, srv.config.BreakConversation(c, c.Param("conversation_id"))
+		}))
+
+		rg.GET("/ai/conversations/:conversation_id/status", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 获取会话是否已中断逻辑
+			return srv.config.IsConversationBreak(c, c.Param("conversation_id"))
+		}))
+
+		rg.POST("/ai/conversations/:conversation_id/resume", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 恢复会话逻辑
+			return nil, srv.config.ResumeConversation(c, c.Param("conversation_id"))
+		}))
+
+		rg.DELETE("/ai/expired/conversations/key", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+			attachHeaders(c)
+			// 删除所有过期key
+			return nil, srv.config.DeleteExpireKeys(c)
+		}))
 	}
 }

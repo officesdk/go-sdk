@@ -101,6 +101,11 @@ type VerifyResponse struct {
 	CurrentUserInfo UserInfo `json:"currentUserInfo"`
 }
 
+// IsBrokenResponse 是否已终端返回结果
+type IsBrokenResponse struct {
+	Broken bool `json:"broken"`
+}
+
 // ChatConversation AI对话
 type ChatConversation struct {
 	ConversationId string          `json:"conversation_id"`

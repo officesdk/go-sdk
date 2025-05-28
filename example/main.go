@@ -206,14 +206,14 @@ func (p *AIProvider) GetConversation(c *gin.Context, conversationId string) (*of
 
 func (p *AIProvider) DeleteFileConversations(c *gin.Context, fileId string) error {
 	userId := c.Query("userId")
-	fmt.Printf("conversationId: %s, userId: %s", fileId, userId)
+	fmt.Printf("fileId: %s, userId: %s", fileId, userId)
 	// 删除文件对话
 	return nil
 }
 
 func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) ([]officesdk.ChatConversation, error) {
 	userId := c.Query("userId")
-	fmt.Printf("fileGuid: %s, userId: %s", fileId, userId)
+	fmt.Printf("fileId: %s, userId: %s", fileId, userId)
 	// 查询文件对话列表
 	return []officesdk.ChatConversation{
 		{
@@ -224,4 +224,32 @@ func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) ([]offi
 			Messages:       []officesdk.ChatMessageDO{},
 		},
 	}, nil
+}
+
+func (p *AIProvider) BreakConversation(c *gin.Context, conversationId string) error {
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
+	// 中断会话
+	return nil
+}
+
+func (p *AIProvider) IsConversationBreak(c *gin.Context, conversationId string) (*officesdk.IsBrokenResponse, error) {
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
+	// 获取会话是否已中断
+	return &officesdk.IsBrokenResponse{
+		Broken: true,
+	}, nil
+}
+
+func (p *AIProvider) ResumeConversation(c *gin.Context, conversationId string) error {
+	userId := c.Query("userId")
+	fmt.Printf("conversationId: %s, userId: %s", conversationId, userId)
+	// 恢复对话
+	return nil
+}
+
+func (p *AIProvider) DeleteExpireKeys(c *gin.Context) error {
+	// 删除所有过期key
+	return nil
 }
