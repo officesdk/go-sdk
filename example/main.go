@@ -206,14 +206,14 @@ func (p *AIProvider) GetConversation(c *gin.Context, conversationId string) (*of
 
 func (p *AIProvider) DeleteFileConversations(c *gin.Context, fileId string) error {
 	userId := c.Query("userId")
-	fmt.Printf("conversationId: %s, userId: %s", fileId, userId)
+	fmt.Printf("fileId: %s, userId: %s", fileId, userId)
 	// 删除文件对话
 	return nil
 }
 
 func (p *AIProvider) GetFileConversations(c *gin.Context, fileId string) ([]officesdk.ChatConversation, error) {
 	userId := c.Query("userId")
-	fmt.Printf("fileGuid: %s, userId: %s", fileId, userId)
+	fmt.Printf("fileId: %s, userId: %s", fileId, userId)
 	// 查询文件对话列表
 	return []officesdk.ChatConversation{
 		{
