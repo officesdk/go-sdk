@@ -122,18 +122,19 @@ type ChatMessageDO struct {
 }
 
 type ChatMessage struct {
-	MessageId   string                 `json:"message_id,omitempty"`
-	Role        string                 `json:"role,omitempty"`
-	Type        string                 `json:"type,omitempty"`
-	SentenceId  int                    `json:"sentence_id"`
-	IsEnd       bool                   `json:"is_end,omitempty"`
-	IsTruncated bool                   `json:"is_truncated,omitempty"`
-	Content     ChatContents           `json:"content,omitempty"`
-	Text        string                 `json:"text,omitempty"`
-	Created     int64                  `json:"created,omitempty"` // 目前用来给消息排序
-	ErrorCode   int                    `json:"error_code,omitempty"`
-	ErrorMsg    string                 `json:"error_msg,omitempty"`
-	Usage       *ChatMessageTokenUsage `json:"usage,omitempty"`
+	MessageId      string                 `json:"message_id,omitempty"`
+	Role           string                 `json:"role,omitempty"`
+	Type           string                 `json:"type,omitempty"`
+	SentenceId     int                    `json:"sentence_id"`
+	IsEnd          bool                   `json:"is_end,omitempty"`
+	IsTruncated    bool                   `json:"is_truncated,omitempty"`
+	Content        ChatContents           `json:"content,omitempty"`
+	Text           string                 `json:"text,omitempty"`
+	Created        int64                  `json:"created,omitempty"` // 目前用来给消息排序
+	ErrorCode      int                    `json:"error_code,omitempty"`
+	ErrorMsg       string                 `json:"error_msg,omitempty"`
+	Usage          *ChatMessageTokenUsage `json:"usage,omitempty"`
+	RegenMessageId string                 `json:"regen_message_id,omitempty"`
 }
 
 type ChatContents []ChatContent
