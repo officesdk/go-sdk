@@ -179,3 +179,9 @@ type ChatMessageTokenUsage struct {
 	CompletionTokens int `json:"completion_tokens,omitempty"` // 回答tokens数
 	TotalTokens      int `json:"total_tokens,omitempty"`      // tokens总数 prompt_tokens + completion_tokens
 }
+
+type CreateAssetsResponse struct {
+	ID        string      `json:"id"`
+	Size      int         `json:"size"`
+	UserQuery interface{} `json:"user_query"`
+}

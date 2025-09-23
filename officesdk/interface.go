@@ -15,6 +15,8 @@ type FileProvider interface {
 	AssetCompleteUpload(c *gin.Context, fileId string) (*UploadCompletionResponse, error)
 	GetAssetDownloadURL(c *gin.Context, fileId string) (*DownloadResponse, error)
 
+	CreateAssetsFile(c *gin.Context, fileId string) (*CreateAssetsResponse, error)
+
 	VerifyFile(c *gin.Context, fileId string) (*VerifyResponse, error)
 }
 

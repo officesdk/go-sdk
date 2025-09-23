@@ -142,6 +142,14 @@ func (p *FileProvider) VerifyFile(c *gin.Context, fileId string) (*officesdk.Ver
 	}, nil
 }
 
+func (p *FileProvider) CreateAssetsFile(c *gin.Context, fileId string) (*officesdk.CreateAssetsResponse, error) {
+	return &officesdk.CreateAssetsResponse{
+		ID:        "1",
+		Size:      1,
+		UserQuery: "id=1",
+	}, nil
+}
+
 // AIProvider 实现 AI 相关接口
 type AIProvider struct{}
 

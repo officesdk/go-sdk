@@ -132,6 +132,12 @@ func (srv *Server) registerRoutes(router gin.IRouter) {
 		return srv.config.GetAssetDownloadURL(c, c.Param("file_id"))
 	}))
 
+	rg.POST("/files/:file_id/assets/create-file", srv.wrapHandlerFunc(func(c *gin.Context) (any, error) {
+		attachHeaders(c)
+		// 调用获取下载 URL 的逻辑
+		return srv.config.CreateAssetsFile(c, c.Param("file_id"))
+	}))
+
 	// AI 接口
 	if srv.config.AIProvider != nil {
 
