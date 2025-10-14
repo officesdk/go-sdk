@@ -138,6 +138,13 @@ func (p *FileProvider) VerifyFile(c *gin.Context, fileId string) (*officesdk.Ver
 			Name:   "名称",
 			Email:  "a@b.com",
 			Avatar: "",
+			Permissions: map[string]bool{
+				"commentable": true,
+				"editable":    true,
+				"readable":    true,
+				"copyable":    true,
+				"exportable":  true,
+			},
 		},
 	}, nil
 }
