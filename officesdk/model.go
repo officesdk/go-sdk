@@ -37,13 +37,15 @@ type DownloadResponse struct {
 }
 
 type WatermarkResponse struct {
-	Type       int     `json:"type"`                 // 水印类型，0表示无水印，1表示文字水印
-	Value      string  `json:"value,omitempty"`      // type = 1 时必须，水印显示的文字内容
-	FillStyle  string  `json:"fill_style,omitempty"` // 水印透明度，示例： rgba( 192, 192, 192, 0.6 )
-	Font       string  `json:"font,omitempty"`       // 水印字体设置，示例： bold 20px Serif
-	Rotate     float64 `json:"rotate,omitempty"`     // 水印旋转度，示例： -0.7853982
-	Horizontal int     `json:"horizontal,omitempty"` // type = 1 时必须，水印水平间距
-	Vertical   int     `json:"vertical,omitempty"`   // type = 1 时必须，水印垂直间距
+	Type       int     `json:"type"`                  // 水印类型，0表示无水印，1表示文字水印
+	Value      string  `json:"value,omitempty"`       // type = 1 时必须，水印显示的文字内容
+	FillStyle  string  `json:"fill_style,omitempty"`  // 水印透明度，示例： rgba( 192, 192, 192, 0.6 )
+	Font       string  `json:"font,omitempty"`        // 水印字体设置，示例： bold 20px Serif
+	Rotate     float64 `json:"rotate,omitempty"`      // 水印旋转度，示例： -0.7853982
+	Horizontal int     `json:"horizontal,omitempty"`  // type = 1 时必须，水印水平间距
+	Vertical   int     `json:"vertical,omitempty"`    // type = 1 时必须，水印垂直间距
+	TextAlign  string  `json:"text_align,omitempty"`  // 文字水平对其，参考值 center
+	LineHeight int     `json:"line_height,omitempty"` // 行间距，参考值 2
 }
 
 type UploadURLResponse struct {
